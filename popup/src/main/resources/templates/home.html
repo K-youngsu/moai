@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>home(popup)test</title>
+<script src="js/jquery-3.6.0.min.js"></script>
+<style type="text/css">
+
+    #popupDiv {  /* 팝업창 css */
+    top : 0px;
+    position: absolute;
+    background:White;
+    width: 750px;
+    height: 700px;
+    display: none; 
+    border: 1px solid black;
+    }
+    
+    #popup_mask { /* 팝업 배경 css */
+        position: fixed;
+        width: 100%;
+        height: 1000px;
+        top: 0px;
+        left: 0px;
+         display: none; 
+         background-color:#000;
+         opacity: 0.8;
+    }
+    
+    #newpopupDiv { /* 새로운 팝업창 css */
+    top : 0px;
+    position: absolute;
+    background:White;
+    width: 700px;
+    height: 800px;
+    display: none; 
+    border: 1px solid black;
+    }
+
+	#result{ /* 팝업 장석된 text 보여지는 div 위치 지정 */
+	width: 100%;
+	height: 100%;
+	/*border: 1px solid;*/
+	text-align: center;
+	padding-top: 400px;
+	}
+	
+	#box1{ /* div(버튼과 텍스트)를 품고있는 박스 css  */
+	
+	}
+	
+</style>
+</head>
+<body>
+	<div id="box1">
+    <button id="popOpenBtn">팝업창 보기</button> 
+ <!--     <div id="result"></div> -->    <!-- 팝업에서 작성한 입력값들 초기화면에 출력 -->
+    </div>
+ 
+    <div id ="popup_mask" ></div> <!-- 팝업 배경 DIV -->
+    
+    <div id="popupDiv"> <!-- 팝업창 -->
+<!--         <button id="popCloseBtn">close</button><br> -->
+        송잔이형 과 학준이형 : <input type="text" id="t1" onkeyup="printName()" placeholder="학준이형 그대로 입력"><br>
+        당신이 원하는 색 : <input type="text" id="t2" onkeyup="printName()" placeholder="색 입력"><br>
+<!--         <button id="popCloseBtn">나가기</button> -->
+<!--  		<div id="result"></div> -->
+		<button id="newPopUp">새로운 팝업창 보기</button>
+        <input type="submit" id="popCloseBtn" value="나가기">
+    </div>
+    
+    <div id="newpopupDiv"> <!-- 새로운 팝업창 -->
+    	경고 : <input type="text" id="t3" onkeyup="printName()" placeholder="송잔이형 그대로 입력"><br>
+        당신이 원하는 색 : <input type="text" id="t4" onkeyup="printName()" placeholder="색 입력"><br><br>
+         <div id="result"></div>  
+        <input type="submit" id="CloseBtn" value="나가기">
+    </div>
+        
+    </div>
+    
+    <script>
+    
+    function printName(){
+    	var t1 = document.getElementById('t1').value;  
+    	var t2 = document.getElementById('t2').value;
+    	var t3 = document.getElementById('t3').value;
+    	var t4 = document.getElementById('t4').value;
+    	
+    	document.getElementById("result").innerText = t1 + " 의 오늘의 팬티색은 " + t2 + " 이다." + t3 + " 의 오늘의 팬티색은 " + t4 + " 이다.";
+    	
+    	
+    }
+    
+    $(document).ready(function(){
+        
+        $("#popOpenBtn").click(function(event){  //팝업창 보기 버튼 클릭 시 
+ 
+             $("#popupDiv").css({
+                "top": (($(window).height()-$("#popupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+                "left": (($(window).width()-$("#popupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
+                //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+             
+             }); 
+            
+            $("#popup_mask").css("display","block"); //팝업 뒷배경 display block
+            $("#popupDiv").css("display","block"); //팝업창 display block
+            
+            $("body").css("overflow","hidden");//body 스크롤바 없애기
+        });
+        
+        
+        $("#newPopUp").click(function(event){ //팝업창 안에 새로운 팝업 보기 버튼 클릭 시
+        	
+        	$("#newpopupDiv").css({
+        		"top": (($(window).height()-$("#newpopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+                "left": (($(window).width()-$("#newpopupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
+              	//새로운 팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+        	
+        	});
+        
+//        	$("#popup_mask").css("display","block"); //팝업 뒷배경 display block
+            $("#newpopupDiv").css("display","block"); //새로운 팝업창 display block
+            
+            $("body").css("overflow","hidden");//body 스크롤바 없애기
+            
+            $("#popupDiv").css("display","none"); // 새로운 팝업창 제외 뒷배경 display none 
+        });
+        
+        $("#popCloseBtn").click(function(event){
+            $("#popup_mask").css("display","none"); //팝업창 뒷배경 display none
+            $("#popupDiv").css("display","none"); //팝업창 display none
+//            $("#newpopupDiv").css("display","none"); //새로운 팝업창 display none
+            $("body").css("overflow","auto");//body 스크롤바 생성
+        });
+        
+        $("#CloseBtn").click(function(event){
+        	$("#popup_mask").css("display","none"); //팝업창 뒷배경 display none
+        	$("#newpopupDiv").css("display","none"); //새로운 팝업창 display none
+        	$("body").css("overflow","auto");//body 스크롤바 생성
+        });
+     
+    
+    });
+ 
+ 
+    </script>
+    
+</body>
+</html>
